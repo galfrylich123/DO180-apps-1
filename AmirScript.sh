@@ -1,9 +1,9 @@
 #!/bin/sh
 
 CurCommitHash=$(git log --pretty=format:'%h' -n 1 origin/master)
-BeforeCommitHash=$(git log --pretty=format:'%h' -n 1 origin/master^)
+BeforeCommitHash=$(git log --min-parents=2 --pretty=format:'%h' -n 1 origin/master)
 Changes=$(git diff --name-only ${CurCommitHash} ${BeforeCommitHash})
-Folders=("hello.txt" "sampleFolder" "nodejs-app" "newThing")
+Folders=("todoapp" "temps" "nodejs-app" "newThing")
 Flag='FALSE'
 
 
