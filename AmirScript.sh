@@ -1,11 +1,15 @@
 #!/bin/sh
 
 CurCommitHash=$(git log --pretty=format:'%h' -n 1 origin/master)
-BeforeCommitHash=$(git log --min-parents=2 --pretty=format:'%h' -n 1 origin/master)
-Changes=$(git diff --name-only ${CurCommitHash} ${BeforeCommitHash})
+BeforeCommitHash=$(git log --pretty=format:'%h' -n 1 origin/master^)
+BeforeMergeHash=$(git log --pretty=format:'%h' --merges origin/master^)
 Folders=("todoapp" "temps" "nodejs-app" "newThing")
 Flag='FALSE'
 
+if [[-z $BeforeMergeHash]]; then
+    Changes=$(git diff --name-only ${CurCommitHash} ${BeforeCommitHash})
+else
+    Changes=$(git diff --name-only ${CurCommitHash} ${BeforeMergeHash})
 
 echo "Current hash -> ${CurCommitHash}"
 echo "Before hash -> ${BeforeCommitHash}"
